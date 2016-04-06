@@ -3,9 +3,8 @@ package com.example.android.justjava;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
-
-import java.text.NumberFormat;
 
 /**
  * This app displays an order form to order coffee.
@@ -25,7 +24,17 @@ public class MainActivity extends AppCompatActivity {
      * This method is called when the order button is clicked.
      */
     public void submitOrder(View view) {
-        displayPrice(quantity * price);
+        int price = calculePrice();
+        displayMessage(createOrderSummary(price));
+    }
+
+    /**
+     * This method return total price.
+     *
+     * @return priceTotal
+     */
+    public int calculePrice(){
+        return quantity * price;
     }
 
     /**
@@ -33,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
      */
     public void submitIncrement(View view) {
         quantity += 1;
-        display();
+        displayQuant();
     }
 
     /**
@@ -42,14 +51,14 @@ public class MainActivity extends AppCompatActivity {
     public void submitDecrement(View view) {
         if (quantity > 1) {
             quantity -= 1;
-            display();
+            displayQuant();
         }
     }
 
     /**
      * This method displays the given quantity value on the screen.
      */
-    private void display() {
+    private void displayQuant() {
         TextView quantityTextView = (TextView) findViewById(R.id.quantity_text_view);
         if (quantityTextView != null) {
             String number = Integer.toString(quantity);
@@ -59,11 +68,23 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * This method displays the given price on the screen.
+     *
+     * @param Message of the price.
      */
-    private void displayPrice(int number) {
-        TextView priceTextView = (TextView) findViewById(R.id.price_text_view);
-        if (priceTextView != null) {
-            priceTextView.setText(NumberFormat.getCurrencyInstance().format(number));
+    private void displayMessage(String Message) {
+        TextView orderSummaryTextView = (TextView) findViewById(R.id.order_summary_text_view);
+        if (orderSummaryTextView != null) {
+            orderSummaryTextView.setText(Message);
         }
+    }
+
+    /**
+     * This method displays a message on the screen.
+     *
+     * @param price of the price.
+     */
+    private String createOrderSummary(int price){
+        String name = "João Henrique";
+        return "Name: "+name+"\nQuantity: "+quantity+"\nTotal: $"+price+"\nThank You!";
     }
 }
